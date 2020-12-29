@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { copyFileSync } from 'fs';
+import { copyFileSync, readdirSync } from 'fs';
 import { Answer, Framework } from './types';
 import shell from 'shelljs';
 import * as inquirer from 'inquirer';
@@ -33,8 +33,21 @@ const additionalSetup = (framework: Framework) => {
   shell.exec(`${scriptsPath}/${setupScript}`);
 };
 
+const isPackageJsonPresent = () =>
+  readdirSync(process.cwd()).includes('package.json');
+
+const silentScript = (script: string) => `: $(${script})`;
+
+const generatePackageJson = () => {
+  shell.exec(silentScript('npm init -y'));
+};
+
 (async () => {
   try {
+    if (!isPackageJsonPresent()) {
+      generatePackageJson();
+    }
+    isPackageJsonPresent();
     const { framework }: Answer = await inquirer.prompt([
       {
         type: 'list',
