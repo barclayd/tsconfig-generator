@@ -2,6 +2,17 @@
 
 Node.js CLI for generating an opinionated TypeScript setup for a range of frameworks
 
+Supports:
+
+- Node
+- React
+- Next
+- Electron
+
+It automatically configures TypeScript, ESLint, Prettier, providing a `tsconfig.json` with `tsconfig-paths` configured out of the box.
+
+Can be used in an empty project or one that has already been configured.
+
 ### Demo
 
 <p align="center">
@@ -34,3 +45,8 @@ npm build
 ```shell
 npm run npx-publish
 ```
+
+### Future improvements
+
+* Provide custom configurations for React and Next.js
+* Support React Native
