@@ -1,2 +1,3 @@
-# tsconfig-generator
-Node.js CLI for generating tsconfig.json files for TypeScript projects
+# TypeScript-Scaffold
+
+Node.js CLI for generating an opinionated TypeScript setup for a range of frameworks
