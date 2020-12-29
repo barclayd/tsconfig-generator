@@ -1,6 +1,8 @@
+import { copyFileSync } from 'fs';
+
 const inquirer = require('inquirer');
 
-enum Frameworks {
+enum Framework {
   React = 'React',
   Next = 'Next',
   Node = 'Node',
@@ -8,21 +10,35 @@ enum Frameworks {
 }
 
 interface Answer {
-  framework: string;
+  framework: Framework;
 }
 
-inquirer
-  .prompt([
-    {
-      type: 'list',
-      message: 'Pick the framework you are using:',
-      name: 'framework',
-      choices: Object.values(Frameworks),
-    },
-  ])
-  .then((answers: Answer) => {
-    console.log(answers);
-  })
-  .catch((error: Error) => {
-    console.log(error);
-  });
+const FILENAME = 'tsconfig.json';
+
+const pathToFrameworkTSConfig = async (
+  framework: Framework,
+): Promise<string> => {
+  return `./templates/${framework.toLowerCase()}-tsconfig.json`;
+};
+
+const writeTSConfig = async (framework: Framework) => {
+  const cwd = process.cwd();
+  const tsconfigPath = await pathToFrameworkTSConfig(framework);
+  copyFileSync(tsconfigPath, cwd + `/${FILENAME}`);
+};
+
+(async () => {
+  try {
+    const { framework }: Answer = await inquirer.prompt([
+      {
+        type: 'list',
+        message: 'Pick the framework you are using:',
+        name: 'framework',
+        choices: Object.values(Framework),
+      },
+    ]);
+    await writeTSConfig(framework);
+  } catch (error) {
+    console.log(`Error occurred: ${error}`);
+  }
+})();
