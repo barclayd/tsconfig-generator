@@ -1,28 +1,31 @@
 {
-  "name": "tsconfig-generator",
+  "name": "typescript-scaffold",
   "version": "1.0.0",
-  "description": "Node.js CLI for generating tsconfig.json files for TypeScript projects",
-  "main": "index.js",
+  "description": "Node.js CLI for generating an opinionated TypeScript setup for a range of frameworks",
+  "main": "src/index.ts",
+  "bin": "src/index.ts",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node src/index.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/barclayd/tsconfig-generator.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Daniel Barclay",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/barclayd/tsconfig-generator/issues"
   },
   "homepage": "https://github.com/barclayd/tsconfig-generator#readme",
   "dependencies": {
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "shelljs": "^0.8.4"
   },
   "devDependencies": {
     "@types/inquirer": "^7.3.1",
     "@types/node": "^14.14.16",
+    "@types/shelljs": "^0.8.8",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
     "eslint": "^7.16.0",
