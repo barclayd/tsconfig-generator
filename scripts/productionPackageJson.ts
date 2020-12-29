@@ -17,7 +17,7 @@ import {
 const pruneScripts = () => {
   const { start } = scripts;
   return {
-    start,
+    start: start.replace('dist/', ''),
   };
 };
 
