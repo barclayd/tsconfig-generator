@@ -1,16 +1,21 @@
+#!/usr/bin/env node
 import { copyFileSync } from 'fs';
 import { Answer, Framework } from './types';
 import shell from 'shelljs';
 import * as inquirer from 'inquirer';
+import path from 'path';
 
 const setupScriptMap = new Map<Framework, string>([
-  [Framework.Node, './scripts/node.sh'],
+  [Framework.Node, 'node.sh'],
 ]);
+
+const pathForFolder = (folder: string) => path.resolve(__dirname, folder);
 
 const pathToFrameworkTSConfig = async (
   framework: Framework,
 ): Promise<string> => {
-  return `./src/templates/${framework.toLowerCase()}-tsconfig.json`;
+  const templatesPath = pathForFolder('templates');
+  return `${templatesPath}/${framework.toLowerCase()}-tsconfig.json`;
 };
 
 const writeTSConfig = async (framework: Framework) => {
@@ -24,7 +29,8 @@ const additionalSetup = (framework: Framework) => {
   if (!setupScript) {
     return;
   }
-  shell.exec(setupScript);
+  const scriptsPath = pathForFolder('scripts');
+  shell.exec(`${scriptsPath}/${setupScript}`);
 };
 
 (async () => {
