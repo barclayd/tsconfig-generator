@@ -9,6 +9,7 @@ module.exports = {
     ecmaVersion: 2019,
     sourceType: 'module',
   },
+  ignorePatterns: ['dist'],
   rules: {
     quotes: [2, 'single', { avoidEscape: true }],
     'comma-dangle': [
