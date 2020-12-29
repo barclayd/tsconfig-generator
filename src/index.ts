@@ -21,7 +21,7 @@ const pathToFrameworkTSConfig = async (
 const writeTSConfig = async (framework: Framework) => {
   const cwd = process.cwd();
   const tsconfigPath = await pathToFrameworkTSConfig(framework);
-  copyFileSync(tsconfigPath, cwd + `/tsconfig.json`);
+  copyFileSync(tsconfigPath, cwd + '/tsconfig.json');
 };
 
 const additionalSetup = (framework: Framework) => {

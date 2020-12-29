@@ -8,6 +8,8 @@
     "dev": "ts-node src/index.ts",
     "start": "node dist/index.js",
     "build": "rm -rf dist && tsc -b && scripts/postBuild.sh",
+    "lint": "eslint '*/**/*.{js,ts}' --fix",
+    "prettier": "prettier --loglevel warn --write '**/*.{js,json,md,ts}'",
     "npx-publish": "scripts/publish.sh"
   },
   "keywords": [],
