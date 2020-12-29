@@ -1,15 +1,17 @@
 {
   "name": "typescript-scaffold",
-  "version": "1.0.0",
+  "version": "0.1.4",
   "description": "Node.js CLI for generating an opinionated TypeScript setup for a range of frameworks",
-  "main": "src/index.ts",
-  "bin": "src/index.ts",
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "ts-node src/index.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/barclayd/tsconfig-generator.git"
+    "dev": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "build": "rm -rf dist && tsc -b && scripts/postBuild.sh",
+    "publish-package": "scripts/publish.sh"
   },
   "keywords": [],
   "author": "Daniel Barclay",
