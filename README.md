@@ -15,7 +15,7 @@ Supports:
 
 It automatically configures TypeScript, ESLint, Prettier, providing a `tsconfig.json` with `tsconfig-paths` configured out of the box.
 
-Can be used in an empty project or one that has already been configured.
+Suitable for use in an empty project or one that has already been configured.
 
 ### Demo
 
