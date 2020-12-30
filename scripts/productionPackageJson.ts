@@ -38,5 +38,5 @@ const productionPackageJson = {
 
 (async () => {
   const distDir = `${process.cwd()}/dist/package.json`;
-  await writeFileSync(distDir, JSON.stringify(productionPackageJson));
+  await writeFileSync(distDir, JSON.stringify(productionPackageJson, null, 2));
 })();
