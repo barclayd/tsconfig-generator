@@ -12,6 +12,7 @@ import {
   homepage,
   license,
   keywords,
+  _moduleAliases,
 } from '../package.json';
 
 const pruneScripts = () => {
@@ -19,6 +20,22 @@ const pruneScripts = () => {
   return {
     start: start.replace('dist/', ''),
   };
+};
+
+const formatModuleAliasKeys = () => {
+  return Object.keys(_moduleAliases as { [key: string]: string }).reduce(
+    (acc, key) => {
+      acc = {
+        ...acc,
+        [key]: (_moduleAliases as { [key: string]: string })[key].replace(
+          'dist',
+          '.',
+        ),
+      };
+      return acc;
+    },
+    {},
+  );
 };
 
 const productionPackageJson = {
@@ -34,6 +51,7 @@ const productionPackageJson = {
   bugs,
   license,
   dependencies,
+  _moduleAliases: formatModuleAliasKeys(),
 };
 
 (async () => {

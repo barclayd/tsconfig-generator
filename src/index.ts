@@ -1,54 +1,25 @@
 #!/usr/bin/env node
-import { copyFileSync, readdirSync } from 'fs';
-import { Answer, Framework } from './types';
-import shell from 'shelljs';
+import moduleAlias from 'module-alias';
+if (process.env.NODE_ENV !== 'development') {
+  moduleAlias();
+}
+import { FrameworkAnswer, Framework } from './types';
+import { isPackageJsonPresent, generatePackageJson } from './helpers';
 import * as inquirer from 'inquirer';
+import { TSConfigService } from '@/services/TSConfigService';
+import { ScriptSetupService } from '@/services/ScriptSetupService';
+import { NpxService } from '@/services/NpxService';
 import path from 'path';
 
-const setupScriptMap = new Map<Framework, string>([
-  [Framework.Node, 'node.sh'],
-]);
-
-const pathForFolder = (folder: string) => path.resolve(__dirname, folder);
-
-const pathToFrameworkTSConfig = async (
-  framework: Framework,
-): Promise<string> => {
-  const templatesPath = pathForFolder('templates');
-  return `${templatesPath}/${framework.toLowerCase()}-tsconfig.json`;
-};
-
-const writeTSConfig = async (framework: Framework) => {
-  const cwd = process.cwd();
-  const tsconfigPath = await pathToFrameworkTSConfig(framework);
-  copyFileSync(tsconfigPath, cwd + '/tsconfig.json');
-};
-
-const additionalSetup = (framework: Framework) => {
-  const setupScript = setupScriptMap.get(framework);
-  if (!setupScript) {
-    return;
-  }
-  const scriptsPath = pathForFolder('scripts');
-  shell.exec(`${scriptsPath}/${setupScript}`);
-};
-
-const isPackageJsonPresent = () =>
-  readdirSync(process.cwd()).includes('package.json');
-
-const silentScript = (script: string) => `: $(${script})`;
-
-const generatePackageJson = () => {
-  shell.exec(silentScript('npm init -y'));
-};
+export const pathForFolder = (folder: string) =>
+  path.resolve(__dirname, folder);
 
 (async () => {
   try {
-    if (!isPackageJsonPresent()) {
+    if (!isPackageJsonPresent(true)) {
       generatePackageJson();
     }
-    isPackageJsonPresent();
-    const { framework }: Answer = await inquirer.prompt([
+    const { framework } = await inquirer.prompt<FrameworkAnswer>([
       {
         type: 'list',
         message: 'Pick the framework you are using:',
@@ -56,8 +27,11 @@ const generatePackageJson = () => {
         choices: Object.values(Framework),
       },
     ]);
-    await writeTSConfig(framework);
-    additionalSetup(framework);
+    await new TSConfigService(framework).create();
+    await new ScriptSetupService(framework).execute();
+    if (framework === Framework.Npx) {
+      await new NpxService().run();
+    }
   } catch (error) {
     console.log(`Error occurred: ${error}`);
   }
