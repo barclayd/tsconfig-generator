@@ -17,12 +17,13 @@ const pruneScripts = () => {
 };
 
 const formatModuleAliasKeys = () => {
-  if (!packageJson['_moduleAliases']) {
+  const typedPackageJson = packageJson as any;
+  if (!typedPackageJson['_moduleAliases']) {
     return {};
   }
-  const moduleAlias = packageJson['_moduleAliases'];
+  const moduleAlias = typedPackageJson['_moduleAliases'];
   return Object.keys(
-    packageJson._moduleAliases as { [key: string]: string },
+    typedPackageJson._moduleAliases as { [key: string]: string },
   ).reduce((acc, key) => {
     acc = {
       ...acc,
