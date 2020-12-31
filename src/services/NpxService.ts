@@ -1,13 +1,9 @@
 import { OldPackageJson, PackageAnswer, PackageJson } from '@/types';
-import {
-  generatePackageJson,
-  isPackageJsonPresent,
-  loadFile,
-  pathForFolder,
-} from '@/helpers';
+import { generatePackageJson, isPackageJsonPresent, loadFile } from '@/helpers';
 import * as inquirer from 'inquirer';
 import { writeFileSync } from 'fs';
 import { ScriptService } from '@/services/ScriptService';
+import { pathForFolder } from '@/index';
 
 export class NpxService {
   private devDependenciesMap = new Map<string, boolean>([
@@ -22,8 +18,6 @@ export class NpxService {
   ]);
 
   private REMOVE_OLD_PACKAGE_JSON = `rm -rf ${process.cwd()}/temp/old-package.json`;
-  private COPY_FILE_STRUCTURE_INTO_WORKING_DIR = (templatesPath: string) =>
-    `cp -r ${templatesPath}/npx ./temp`;
   private DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD = `sed -i '' -e '3,6d' ./temp/scripts/postBuild.sh`;
   private NPM_INSTALL = 'npm i';
 
@@ -69,7 +63,7 @@ export class NpxService {
 
   public async run() {
     const templatesPath = pathForFolder('templates');
-    ScriptService.run(this.COPY_FILE_STRUCTURE_INTO_WORKING_DIR(templatesPath));
+    ScriptService.run(`cp -r ${templatesPath}/npx ./temp`);
     ScriptService.runSilent(this.DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD);
     if (!isPackageJsonPresent()) {
       generatePackageJson();

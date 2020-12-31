@@ -1,6 +1,6 @@
 import { Framework } from '@/types';
 import { copyFileSync } from 'fs';
-import { pathForFolder } from '@/helpers';
+import { pathForFolder } from '@/index';
 
 export class TSConfigService {
   constructor(private framework: Framework) {}

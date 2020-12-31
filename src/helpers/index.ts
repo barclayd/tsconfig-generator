@@ -1,9 +1,5 @@
-import path from 'path';
 import { readdirSync } from 'fs';
 import { ScriptService } from '@/services/ScriptService';
-
-export const pathForFolder = (folder: string) =>
-  path.resolve(__dirname, folder);
 
 export const loadFile = async <T>(file: string): Promise<T> => {
   try {

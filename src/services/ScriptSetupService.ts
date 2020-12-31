@@ -1,6 +1,6 @@
 import { Framework } from '@/types';
-import { pathForFolder } from '@/helpers';
 import { ScriptService } from '@/services/ScriptService';
+import { pathForFolder } from '@/index';
 
 export class ScriptSetupService {
   private setupScriptMap = new Map<Framework, string>([
