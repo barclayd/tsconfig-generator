@@ -6,6 +6,21 @@ export enum Framework {
   Npx = 'Npx',
 }
 
-export interface Answer {
+export interface FrameworkAnswer {
   framework: Framework;
+}
+
+export interface PackageAnswer extends PackageJson {}
+
+export interface PackageJson {
+  name: string;
+  description: string;
+}
+
+export interface OldPackageJson extends PackageJson {
+  version: string;
+  main: string;
+  bin: string;
+  scripts: object;
+  devDependencies: { [key: string]: string };
 }
