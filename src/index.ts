@@ -7,7 +7,6 @@ import path from 'path';
 
 const setupScriptMap = new Map<Framework, string>([
   [Framework.Node, 'node.sh'],
-  [Framework.Npx, 'npx.sh'],
 ]);
 
 const pathForFolder = (folder: string) => path.resolve(__dirname, folder);
@@ -20,6 +19,9 @@ const pathToFrameworkTSConfig = async (
 };
 
 const writeTSConfig = async (framework: Framework) => {
+  if (framework === Framework.Npx) {
+    return;
+  }
   const cwd = process.cwd();
   const tsconfigPath = await pathToFrameworkTSConfig(framework);
   copyFileSync(tsconfigPath, cwd + '/tsconfig.json');
@@ -32,6 +34,20 @@ const additionalSetup = (framework: Framework) => {
   }
   const scriptsPath = pathForFolder('scripts');
   shell.exec(`${scriptsPath}/${setupScript}`);
+  npxSetup(framework);
+};
+
+const npxSetup = (framework: Framework) => {
+  if (framework !== Framework.Npx) {
+    return;
+  }
+  const templatesPath = pathForFolder('templates');
+  shell.exec(`cp -r ${templatesPath}/npx ./temp`);
+  shell.exec(silentScript(`sed -i '' -e '3,6d' ./temp/scripts/postBuild.sh`));
+  // generate package.json name using package name provided by user - default to npx-package
+  // generate package.json description using package name provided by user - default to npx-package description
+  // add version number as 0.1.0
+  // add dev dependencies, scripts, main, bin
 };
 
 const isPackageJsonPresent = () =>
