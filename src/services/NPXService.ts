@@ -5,7 +5,7 @@ import { writeFileSync } from 'fs';
 import { ScriptService } from '@/services/ScriptService';
 import { pathForFolder } from '@/index';
 
-export class NpxService {
+export class NPXService {
   private devDependenciesMap = new Map<string, boolean>([
     ['@types/node', true],
     ['@typescript-eslint/eslint-plugin', true],
@@ -24,7 +24,7 @@ export class NpxService {
     this.isDebug
       ? `cp -r ${templatesPath}/npx/. ./temp`
       : `cp -r ${templatesPath}/npx/. .`;
-  private DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD = `sed -i '' -e '3,6d' ./${this.path}scripts/postBuild.sh`;
+  private DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD = `sed -i '' -e '3,8d' ./${this.path}scripts/postBuild.sh`;
   private RENAME_GITIGNORE_TO_DOT_GITIGNORE = 'mv gitignore .gitignore';
   private NPM_INSTALL = 'npm i';
 
