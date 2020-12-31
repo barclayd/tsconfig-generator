@@ -16,7 +16,7 @@ export const pathForFolder = (folder: string) =>
 
 (async () => {
   try {
-    if (!isPackageJsonPresent()) {
+    if (!isPackageJsonPresent(true)) {
       generatePackageJson();
     }
     const { framework } = await inquirer.prompt<FrameworkAnswer>([

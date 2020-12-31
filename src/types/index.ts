@@ -10,7 +10,7 @@ export interface FrameworkAnswer {
   framework: Framework;
 }
 
-export interface PackageAnswer extends PackageJson {}
+export type PackageAnswer = PackageJson;
 
 export interface PackageJson {
   name: string;
@@ -21,6 +21,6 @@ export interface OldPackageJson extends PackageJson {
   version: string;
   main: string;
   bin: string;
-  scripts: object;
+  scripts: { [key: string]: string };
   devDependencies: { [key: string]: string };
 }

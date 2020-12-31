@@ -17,13 +17,26 @@ export class NpxService {
     ['typescript', true],
   ]);
 
-  private REMOVE_OLD_PACKAGE_JSON = `rm -rf ${process.cwd()}/temp/old-package.json`;
+  private REMOVE_OLD_PACKAGE_JSON = `rm -rf ${process.cwd()}/${
+    this.path
+  }old-package.json`;
   private COPY_NPX_SETUP_INTO_WORKING_DIR = (templatesPath: string) =>
-    `cp -r ${templatesPath}/npx ./temp`;
-  private DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD = `sed -i '' -e '3,6d' ./temp/scripts/postBuild.sh`;
+    this.isDebug
+      ? `cp -r ${templatesPath}/npx ./temp`
+      : `cp -r ${templatesPath}/npx .`;
+  private DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD = `sed -i '' -e '3,6d' ./${this.path}scripts/postBuild.sh`;
   private NPM_INSTALL = 'npm i';
 
-  constructor() {}
+  constructor(private isDebug = process.env.DEBUG === 'true') {}
+
+  get path() {
+    const path = this.isDebug ? 'temp/' : '';
+    return `${path}${this.additionalSlash}`;
+  }
+
+  get additionalSlash() {
+    return this.isDebug ? '/' : '';
+  }
 
   private pruneDevDependencies = (devDependencies: {
     [key: string]: string;
@@ -45,7 +58,7 @@ export class NpxService {
       bin,
       main,
       devDependencies,
-    } = await loadFile<OldPackageJson>('temp/old-package.json');
+    } = await loadFile<OldPackageJson>(`${this.path}old-package.json`);
     const prunedDevDependencies = this.pruneDevDependencies(devDependencies);
     const newPackageJson = {
       name: name.toLowerCase(),
@@ -57,7 +70,7 @@ export class NpxService {
       devDependencies: prunedDevDependencies,
     };
     await writeFileSync(
-      `${process.cwd()}/temp/package.json`,
+      `${process.cwd()}/${this.path}package.json`,
       JSON.stringify(newPackageJson, null, 2),
     );
     ScriptService.run(this.REMOVE_OLD_PACKAGE_JSON);
@@ -67,7 +80,7 @@ export class NpxService {
     const templatesPath = pathForFolder('templates');
     ScriptService.run(this.COPY_NPX_SETUP_INTO_WORKING_DIR(templatesPath));
     ScriptService.runSilent(this.DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD);
-    if (!isPackageJsonPresent()) {
+    if (!isPackageJsonPresent(false)) {
       generatePackageJson();
     }
     const packageJson = await loadFile<PackageJson>('package.json');

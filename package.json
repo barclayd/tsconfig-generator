@@ -6,7 +6,8 @@
   "bin": "index.js",
   "scripts": {
     "dev": "ts-node src/index.ts",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "DEBUG=true NODE_ENV=production node dist/index.js",
+    "start:debug": "DEBUG=true NODE_ENV=production node dist/index.js",
     "build": "rm -rf dist && tsc -b && scripts/postBuild.sh",
     "lint": "eslint '*/**/*.{js,ts}' --fix",
     "prettier": "prettier --loglevel warn --write '**/*.{js,json,md,ts}'",

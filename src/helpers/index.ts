@@ -9,10 +9,13 @@ export const loadFile = async <T>(file: string): Promise<T> => {
   }
 };
 
-export const isPackageJsonPresent = (temp = false) =>
-  readdirSync(`${process.cwd()}/${temp ? 'temp' : ''}`).includes(
+export const isPackageJsonPresent = (isRoot: boolean) => {
+  let additionalPath = `${process.env.DEBUG ? '/temp' : ''}`;
+  additionalPath = isRoot ? '' : additionalPath;
+  return readdirSync(`${process.cwd()}${additionalPath}`).includes(
     'package.json',
   );
+};
 
 const NPM_INIT = 'npm init -y';
 
