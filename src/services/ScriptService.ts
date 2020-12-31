@@ -6,6 +6,8 @@ export class ScriptService {
   }
 
   static runSilent(script: string) {
-    shell.exec(`: $(${script})`);
+    shell.exec(script, {
+      silent: true,
+    });
   }
 }

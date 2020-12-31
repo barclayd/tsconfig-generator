@@ -1,18 +1,12 @@
 import { writeFileSync } from 'fs';
-import {
+import packageJson, {
   name,
   version,
   description,
-  author,
   main,
   bin,
   scripts,
   dependencies,
-  bugs,
-  homepage,
-  license,
-  keywords,
-  _moduleAliases,
 } from '../package.json';
 
 const pruneScripts = () => {
@@ -23,19 +17,22 @@ const pruneScripts = () => {
 };
 
 const formatModuleAliasKeys = () => {
-  return Object.keys(_moduleAliases as { [key: string]: string }).reduce(
-    (acc, key) => {
-      acc = {
-        ...acc,
-        [key]: (_moduleAliases as { [key: string]: string })[key].replace(
-          'dist',
-          '.',
-        ),
-      };
-      return acc;
-    },
-    {},
-  );
+  if (!packageJson['_moduleAliases']) {
+    return {};
+  }
+  const moduleAlias = packageJson['_moduleAliases'];
+  return Object.keys(
+    packageJson._moduleAliases as { [key: string]: string },
+  ).reduce((acc, key) => {
+    acc = {
+      ...acc,
+      [key]: (moduleAlias as { [key: string]: string })[key].replace(
+        'dist',
+        '.',
+      ),
+    };
+    return acc;
+  }, {});
 };
 
 const productionPackageJson = {
@@ -45,11 +42,6 @@ const productionPackageJson = {
   main,
   bin,
   scripts: pruneScripts(),
-  keywords,
-  author,
-  homepage,
-  bugs,
-  license,
   dependencies,
   _moduleAliases: formatModuleAliasKeys(),
 };

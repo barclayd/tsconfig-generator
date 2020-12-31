@@ -5,10 +5,10 @@ if (process.env.NODE_ENV !== 'development') {
 }
 import { FrameworkAnswer, Framework } from './types';
 import { isPackageJsonPresent, generatePackageJson } from './helpers';
-import * as inquirer from 'inquirer';
+import inquirer from 'inquirer';
 import { TSConfigService } from '@/services/TSConfigService';
 import { ScriptSetupService } from '@/services/ScriptSetupService';
-import { NpxService } from '@/services/NpxService';
+import { NPXService } from '@/services/NPXService';
 import path from 'path';
 
 export const pathForFolder = (folder: string) =>
@@ -30,7 +30,7 @@ export const pathForFolder = (folder: string) =>
     await new TSConfigService(framework).create();
     await new ScriptSetupService(framework).execute();
     if (framework === Framework.Npx) {
-      await new NpxService().run();
+      await new NPXService().run();
     }
   } catch (error) {
     console.log(`Error occurred: ${error}`);
