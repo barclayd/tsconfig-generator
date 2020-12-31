@@ -1,6 +1,6 @@
 {
   "name": "typescript-scaffold",
-  "version": "1.2.1-canary.11",
+  "version": "1.3.0",
   "description": "Node.js CLI for generating an opinionated TypeScript setup for a range of frameworks",
   "main": "index.js",
   "bin": "index.js",

@@ -4,7 +4,7 @@
 npx typescript-scaffold
 ```
 
-Node.js CLI for generating an opinionated TypeScript setup for a range of frameworks
+Node.js CLI for generating an opinionated TypeScript setup for a range of frameworks.
 
 Supports:
 
@@ -12,8 +12,11 @@ Supports:
 - React
 - Next
 - Electron
+- Npx package
 
 It automatically configures TypeScript, ESLint, Prettier, providing a `tsconfig.json` with `tsconfig-paths` configured out of the box.
+
+``npx`` package creation is made available too with the ability to create a TypeScript ``npx`` package complete with formatting, linting, building and publishing with just one command.
 
 Suitable for use in an empty project or one that has already been configured.
 
