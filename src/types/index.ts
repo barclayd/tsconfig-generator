@@ -3,6 +3,7 @@ export enum Framework {
   Next = 'Next',
   Node = 'Node',
   Electron = 'Electron',
+  Npx = 'Npx',
 }
 
 export interface Answer {

@@ -7,6 +7,7 @@ import path from 'path';
 
 const setupScriptMap = new Map<Framework, string>([
   [Framework.Node, 'node.sh'],
+  [Framework.Npx, 'npx.sh'],
 ]);
 
 const pathForFolder = (folder: string) => path.resolve(__dirname, folder);
