@@ -1,6 +1,6 @@
 import { OldPackageJson, PackageAnswer, PackageJson } from '@/types';
 import { generatePackageJson, isPackageJsonPresent, loadFile } from '@/helpers';
-import * as inquirer from 'inquirer';
+import inquirer from 'inquirer';
 import { writeFileSync } from 'fs';
 import { ScriptService } from '@/services/ScriptService';
 import { pathForFolder } from '@/index';

@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 import { FrameworkAnswer, Framework } from './types';
 import { isPackageJsonPresent, generatePackageJson } from './helpers';
-import * as inquirer from 'inquirer';
+import inquirer from 'inquirer';
 import { TSConfigService } from '@/services/TSConfigService';
 import { ScriptSetupService } from '@/services/ScriptSetupService';
 import { NPXService } from '@/services/NPXService';
