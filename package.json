@@ -39,5 +39,9 @@
   },
   "_moduleAliases": {
     "@": "dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barclayd/typescript-scaffold.git"
   }
 }

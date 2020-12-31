@@ -18,6 +18,8 @@ export class NpxService {
   ]);
 
   private REMOVE_OLD_PACKAGE_JSON = `rm -rf ${process.cwd()}/temp/old-package.json`;
+  private COPY_NPX_SETUP_INTO_WORKING_DIR = (templatesPath: string) =>
+    `cp -r ${templatesPath}/npx ./temp`;
   private DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD = `sed -i '' -e '3,6d' ./temp/scripts/postBuild.sh`;
   private NPM_INSTALL = 'npm i';
 
@@ -63,7 +65,7 @@ export class NpxService {
 
   public async run() {
     const templatesPath = pathForFolder('templates');
-    ScriptService.run(`cp -r ${templatesPath}/npx ./temp`);
+    ScriptService.run(this.COPY_NPX_SETUP_INTO_WORKING_DIR(templatesPath));
     ScriptService.runSilent(this.DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD);
     if (!isPackageJsonPresent()) {
       generatePackageJson();
