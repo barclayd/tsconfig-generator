@@ -22,9 +22,10 @@ export class NpxService {
   }old-package.json`;
   private COPY_NPX_SETUP_INTO_WORKING_DIR = (templatesPath: string) =>
     this.isDebug
-      ? `cp -R ${templatesPath}/npx/. ./temp`
-      : `cp -R ${templatesPath}/npx/. .`;
+      ? `cp -r ${templatesPath}/npx/. ./temp`
+      : `cp -r ${templatesPath}/npx/. .`;
   private DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD = `sed -i '' -e '3,6d' ./${this.path}scripts/postBuild.sh`;
+  private RENAME_GITIGNORE_TO_DOT_GITIGNORE = 'mv gitignore .gitignore';
   private NPM_INSTALL = 'npm i';
 
   constructor(private isDebug = process.env.DEBUG === 'true') {}
@@ -80,6 +81,7 @@ export class NpxService {
     const templatesPath = pathForFolder('templates');
     ScriptService.run(this.COPY_NPX_SETUP_INTO_WORKING_DIR(templatesPath));
     ScriptService.runSilent(this.DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD);
+    ScriptService.run(this.RENAME_GITIGNORE_TO_DOT_GITIGNORE);
     if (!isPackageJsonPresent(false)) {
       generatePackageJson();
     }
