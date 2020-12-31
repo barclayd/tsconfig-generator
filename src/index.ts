@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import moduleAlias from 'module-alias';
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV !== 'development') {
   moduleAlias();
 }
 import { FrameworkAnswer, Framework } from './types';

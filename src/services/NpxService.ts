@@ -22,8 +22,8 @@ export class NpxService {
   }old-package.json`;
   private COPY_NPX_SETUP_INTO_WORKING_DIR = (templatesPath: string) =>
     this.isDebug
-      ? `cp -r ${templatesPath}/npx ./temp`
-      : `cp -r ${templatesPath}/npx .`;
+      ? `cp -R ${templatesPath}/npx/. ./temp`
+      : `cp -R ${templatesPath}/npx/. .`;
   private DELETE_NON_RELEVANT_LINES_FROM_POST_BUILD = `sed -i '' -e '3,6d' ./${this.path}scripts/postBuild.sh`;
   private NPM_INSTALL = 'npm i';
 
